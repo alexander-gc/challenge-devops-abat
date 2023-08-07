@@ -15,7 +15,6 @@ spec:
       containers:
         - name: users
           image: alexandergc/users
-          imagePullPolicy: Never
           env:
             - name: PORT
               value: "5000"
