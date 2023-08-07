@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: users
-          image: alexander-gc/users
+          image: alexandergc/users
           imagePullPolicy: Never
           env:
             - name: PORT

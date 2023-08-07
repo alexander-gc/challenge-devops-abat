@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ConfigService } from '@nestjs/config';
-import { hashSync, compareSync } from 'bcrypt';
+//import { hashSync, compareSync } from 'bcrypt';
 
 import { User } from './entities/user.entity';
 import { CreateUserDto, UpdateUserDto } from './dto';
@@ -30,13 +30,13 @@ export class UsersService {
       if (existingEmail) throw new BadRequestException('Email already exists');
 
       // Encrypt password
-      const encryptedPass = hashSync(password, 10);
+      //const encryptedPass = hashSync(password, 10);
 
       const newUser = this.userRepo.create({
         firstName,
         lastName,
         email: email.toLowerCase().trim(),
-        password: encryptedPass,
+        password: password,
       });
 
       await this.userRepo.save(newUser);
@@ -49,11 +49,13 @@ export class UsersService {
 
   async findAll() {
     try {
-      const users = await this.userRepo.find({
+      /*const users = await this.userRepo.find({
         where: { isDeleted: false },
       });
 
-      return users;
+      return users;*/
+
+      return { msg: 'Retrieving all users!' };
     } catch (error) {
       throw new Error(error);
     }

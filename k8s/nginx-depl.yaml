@@ -37,7 +37,7 @@ spec:
   ports:
     - name: nginx
       protocol: TCP
-      nodePort: 30080
+      nodePort: 32443
       port: 80
       targetPort: 80
   selector:
