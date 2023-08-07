@@ -15,14 +15,13 @@ spec:
       containers:
         - name: users
           image: alexandergc/users
-          imagePullPolicy: Never
           env:
             - name: PORT
               value: "5000"
             - name: DB_USER
               value: root
             - name: DB_HOST
-              value: users-postgres-srv 
+              value: users-postgres-srv
             - name: DB_NAME
               value: users-db
             - name: DB_PASSWORD
