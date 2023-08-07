@@ -53,8 +53,8 @@ jobs:
       uses: mr-smithers-excellent/docker-build-push@v4
       with:
         image: alexandergc/users
-        #dockerfile: Dockerfile
-        directory: ./users
+        dockerfile: /users/Dockerfile
+        #directory: ./users
         registry: docker.io
         tag: latest
         username: ${{ secrets.DOCKER_USERNAME }}
