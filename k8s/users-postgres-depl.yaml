@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: users-postgres-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: users-postgres
+  template:
+    metadata:
+      labels:
+        app: users-postgres
+    spec:
+      containers:
+        - name: users-postgres
+          image: postgres:15.1
+          env:
+            - name: POSTGRES_DB
+              value: users-db
+            - name: POSTGRES_USER
+              value: root
+            - name: POSTGRES_PASSWORD
+              value: password
+          volumeMounts:
+            - name: pgdata
+              mountPath: /var/lib/postgresql/data
+      volumes:
+        - name: pgdata
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: users-postgres-srv
+spec:
+  type: NodePort
+  ports:
+    - name: users-postgres
+      protocol: TCP
+      nodePort: 30001
+      port: 5432
+      targetPort: 5432
+  selector:
+    app: users-postgres

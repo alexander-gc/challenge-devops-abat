@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: users-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: users
+  template:
+    metadata:
+      labels:
+        app: users
+    spec:
+      containers:
+        - name: users
+          image: alexander-gc/users
+          imagePullPolicy: Never
+          env:
+            - name: PORT
+              value: "5000"
+            - name: DB_USER
+              value: root
+            - name: DB_HOST
+              value: users-postgres-srv 
+            - name: DB_NAME
+              value: users-db
+            - name: DB_PASSWORD
+              value: password
+            - name: DB_PORT
+              value: "5432"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: users-srv
+spec:
+  #type: NodePort
+  ports:
+    - name: users
+      protocol: TCP
+      #nodePort: 30000
+      port: 5000
+      targetPort: 5000
+  selector:
+    app: users

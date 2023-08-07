@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx
+
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:1.25.1-alpine
+          volumeMounts:
+            - name: nginx-config
+              mountPath: /etc/nginx/conf.d
+      volumes:
+        - name: nginx-config
+          configMap:
+            name: nginx-config-map
+            items:
+              - key: default.conf
+                path: default.conf
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-srv
+spec:
+  type: NodePort
+  ports:
+    - name: nginx
+      protocol: TCP
+      nodePort: 30080
+      port: 80
+      targetPort: 80
+  selector:
+    app: nginx
