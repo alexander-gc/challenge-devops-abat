@@ -44,21 +44,24 @@ jobs:
   #    - name: Run Test
   #      run: cd users && npm run test
 
-  build_push_image:
+  build_and_push:
     if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
-    #needs: [test]
     runs-on: ubuntu-latest
     steps:
-    - name: Build and Push Docker Image
-      uses: mr-smithers-excellent/docker-build-push@v4
-      with:
-        image: alexandergc/users
-        dockerfile: ./users/Dockerfile
-        directory: users/.
-        registry: docker.io
-        tag: latest
-        username: ${{ secrets.DOCKER_USERNAME }}
-        password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Showing paths
+        run: ls
+
+      - name: Login to Docker Hub
+        run: echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+
+      - name: Build Docker Image
+        run: docker build -t alexandergc/users:latest ./users
+
+      - name: Push Docker Image
+        run: docker push alexandergc/users:latest
         
   deploy_aws:
     if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
