@@ -3,13 +3,15 @@ import {
   BadRequestException,
   Injectable,
   NotFoundException,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ConfigService } from '@nestjs/config';
 //import { hashSync, compareSync } from 'bcrypt';
 
 import { User } from './entities/user.entity';
-import { CreateUserDto, UpdateUserDto } from './dto';
+import { CreateUserDto, UpdateUserDto, LoginUserDto } from './dto';
+import { errorHandler } from 'src/handlers/error.handler';
 
 @Injectable()
 export class UsersService {
@@ -36,28 +38,50 @@ export class UsersService {
         firstName,
         lastName,
         email: email.toLowerCase().trim(),
-        password: password,
+        password,
       });
 
       await this.userRepo.save(newUser);
 
       return newUser;
     } catch (error) {
-      throw new Error(error);
+      errorHandler(error);
+    }
+  }
+
+  async login(loginUserDto: LoginUserDto) {
+    try {
+      const { email, password } = loginUserDto;
+
+      // Validate if user (email) exists
+      const existingUser = await this.userRepo.findOne({
+        where: { email, isDeleted: false },
+      });
+
+      if (!existingUser)
+        throw new UnauthorizedException('Credentials are not valid');
+
+      if (password != existingUser.password)
+        throw new UnauthorizedException('Password is not valid');
+
+      /*if (!compareSync(password, existingUser.password))
+        throw new UnauthorizedException('Password is not valid');*/
+
+      return existingUser;
+    } catch (error) {
+      errorHandler(error);
     }
   }
 
   async findAll() {
     try {
-      /*const users = await this.userRepo.find({
+      const users = await this.userRepo.find({
         where: { isDeleted: false },
       });
 
-      return users;*/
-
-      return { msg: 'Retrieving all users!' };
+      return { length: users.length, users };
     } catch (error) {
-      throw new Error(error);
+      errorHandler(error);
     }
   }
 
@@ -73,7 +97,7 @@ export class UsersService {
 
       return user;
     } catch (error) {
-      throw new Error(error);
+      errorHandler(error);
     }
   }
 
@@ -83,9 +107,19 @@ export class UsersService {
 
       const user = await this.findOne(id);
 
+      // Validate if email already exists
+
+      Object.assign(user, {
+        email,
+        firstName,
+        lastName,
+      });
+
+      await this.userRepo.save(user);
+
       return user;
     } catch (error) {
-      throw new Error(error);
+      errorHandler(error);
     }
   }
 
@@ -93,9 +127,13 @@ export class UsersService {
     try {
       const user = await this.findOne(id);
 
-      return { msg: '' };
+      // User will only be disabled
+      user.isDeleted = true;
+      this.userRepo.save(user);
+
+      return { msg: 'User deleted successfully' };
     } catch (error) {
-      throw new Error(error);
+      errorHandler(error);
     }
   }
 }

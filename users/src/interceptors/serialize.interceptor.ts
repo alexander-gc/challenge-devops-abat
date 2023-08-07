@@ -8,10 +8,6 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { plainToInstance, ClassConstructor } from 'class-transformer';
 
-// extends: we are subclassing an existing class.
-// implements: we wanna create a new class that satisfies all the requeriments of either an abstract class or an interface.
-// ClassConstructor: parameter must be any class type.
-
 export function Serialize<T>(dto: ClassConstructor<T>) {
   return UseInterceptors(new SerializeInterceptor(dto));
 }
