@@ -1,0 +1,67 @@
+name: users
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened]
+    paths:
+      - "users/**"
+  push:
+    branches: [main]
+    paths:
+      - "users/**"
+
+jobs:
+  avoid_reduncy:
+    if: ${{ github.event_name == 'pull_request' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Cancel Previous Redundant Builds
+        uses: styfle/cancel-workflow-action@0.9.1
+        with:
+          access_token: ${{ github.token }}
+
+  test:
+    if: ${{ github.event_name == 'pull_request' }}
+    needs: [avoid_reduncy]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Run test
+        run: echo "Running tests"
+      #  run: cd users && npm run test 
+
+  #build:
+  #  if: ${{ github.event_name == 'pull_request' }}
+  #  needs: [test]
+  #  runs-on: ubuntu-latest
+  #  steps:
+  #    - uses: actions/checkout@v3
+  #    - name: Install dependencies
+  #      run: cd users && npm install
+  #    - name: Run Test
+  #      run: cd users && npm run test
+
+  build_push_image:
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+    #needs: [test]
+    runs-on: ubuntu-latest
+    steps:
+    - name: Build and Push Docker Image
+      uses: mr-smithers-excellent/docker-build-push@v4
+      with:
+        image: alexandergc/users
+        dockerfile: Dockerfile
+        directory: /users
+        registry: docker.io
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+        
+  deploy_aws:
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+    #needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to AWS
+        run: echo "Starting deployment to AWS"
+
