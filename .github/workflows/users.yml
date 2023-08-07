@@ -54,7 +54,7 @@ jobs:
       with:
         image: alexandergc/users
         dockerfile: Dockerfile
-        directory: /users
+        directory: users
         registry: docker.io
         addLatest: true
         username: ${{ secrets.DOCKER_USERNAME }}
