@@ -13,7 +13,7 @@ const dataSourceOptions: DataSourceOptions = {
   port: parseInt(process.env.DB_PORT),
   logging: true,
   entities: ['dist/**/*.entity.js'],
-  //synchronize: false,
+  synchronize: true,
   //migrations: ['dist/database/migrations/*.js'],
 };
 
