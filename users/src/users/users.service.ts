@@ -7,7 +7,6 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ConfigService } from '@nestjs/config';
-//import { hashSync, compareSync } from 'bcrypt';
 
 import { User } from './entities/user.entity';
 import { CreateUserDto, UpdateUserDto, LoginUserDto } from './dto';
@@ -20,7 +19,7 @@ export class UsersService {
     @InjectRepository(User) private userRepo: Repository<User>,
   ) {}
 
-  async create(createUserDto: CreateUserDto) {
+  async create(createUserDto: CreateUserDto): Promise<User> {
     try {
       const { firstName, lastName, email, password } = createUserDto;
 
@@ -49,7 +48,7 @@ export class UsersService {
     }
   }
 
-  async login(loginUserDto: LoginUserDto) {
+  async login(loginUserDto: LoginUserDto): Promise<User> {
     try {
       const { email, password } = loginUserDto;
 
@@ -73,7 +72,7 @@ export class UsersService {
     }
   }
 
-  async findAll() {
+  async findAll(): Promise<object> {
     try {
       const users = await this.userRepo.find({
         where: { isDeleted: false },
@@ -85,7 +84,7 @@ export class UsersService {
     }
   }
 
-  async findOne(id: number) {
+  async findOne(id: number): Promise<User> {
     try {
       const user = await this.userRepo.findOne({
         where: { id, isDeleted: false },
@@ -101,7 +100,7 @@ export class UsersService {
     }
   }
 
-  async update(id: number, updateUserDto: UpdateUserDto) {
+  async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
     try {
       const { firstName, lastName, email } = updateUserDto;
 
@@ -123,7 +122,7 @@ export class UsersService {
     }
   }
 
-  async remove(id: number) {
+  async remove(id: number): Promise<object> {
     try {
       const user = await this.findOne(id);
 
