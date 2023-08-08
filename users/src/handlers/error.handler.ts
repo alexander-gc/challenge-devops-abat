@@ -7,20 +7,17 @@ import {
   HttpException,
 } from '@nestjs/common';
 
-// TODO: Improve it
-
 export const errorHandler = (err: HttpException | any): never => {
-  if (
+  const isKnownException =
     err instanceof UnauthorizedException ||
     err instanceof NotFoundException ||
     err instanceof ForbiddenException ||
-    err instanceof BadRequestException
-  ) {
-    throw err;
-  }
+    err instanceof BadRequestException;
 
-  throw new InternalServerErrorException(
-    'Something went wrong',
-    err.detail || err.message,
-  );
+  if (isKnownException) throw err;
+
+  const errorMsg = 'Something went wrong';
+  const errorDescription = err.detail || err.message;
+
+  throw new InternalServerErrorException(errorMsg, errorDescription);
 };
