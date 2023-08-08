@@ -83,6 +83,9 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
       - name: Configure SSH
         run: ssh-keyscan -H "${{ secrets.PUBLIC_INSTANCE_IP }}" >> ~/.ssh/known_hosts
-      - name: Connect to EC2 Instance
+      - name: Connect to EC2 Instance and Update pods
         run: |
-          ssh -i ~/.ssh/id_rsa "${{ secrets.INSTANCE_USER }}"@"${{ secrets.PUBLIC_INSTANCE_IP }}" "mkdir testing"
+          ssh -i ~/.ssh/id_rsa "${{ secrets.INSTANCE_USER }}"@"${{ secrets.PUBLIC_INSTANCE_IP }}" << EOF
+            chmod +x ./challenge-devops-abat/k8s/scripts/restart-pods.sh
+            ./challenge-devops-abat/k8s/scripts/restart-pods.sh
+          EOF
