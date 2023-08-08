@@ -88,6 +88,6 @@ jobs:
           ssh -i ~/.ssh/id_rsa "${{ secrets.INSTANCE_USER }}"@"${{ secrets.PUBLIC_INSTANCE_IP }}" << EOF
             cd ./challenge-devops-abat
             sudo git pull origin main
-            chmod +x ./k8s/scripts/restart-pods.sh
+            sudo chmod 755 ./k8s/scripts/restart-pods.sh
             ./k8s/scripts/restart-pods.sh
           EOF
