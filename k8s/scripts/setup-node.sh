@@ -1,7 +1,7 @@
 #!/bin/bash
 
-USERS_HOME="$HOME/users"
-K8S_HOME="$HOME/k8s"
+USERS_HOME="$HOME/challenge-devops-abat/users"
+K8S_HOME="$HOME/challenge-devops-abat/k8s"
 
 echo "Building Users image"
 cd $USERS_HOME && docker build -t alexandergc/users .
