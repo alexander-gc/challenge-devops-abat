@@ -10,7 +10,9 @@ import { ConfigService } from '@nestjs/config';
 
 import { User } from './entities/user.entity';
 import { CreateUserDto, UpdateUserDto, LoginUserDto } from './dto';
-import { errorHandler } from 'src/handlers/error.handler';
+import { errorHandler } from '../handlers/error.handler';
+
+// TODO: Validate if email already exists
 
 @Injectable()
 export class UsersService {
@@ -29,9 +31,6 @@ export class UsersService {
       });
 
       if (existingEmail) throw new BadRequestException('Email already exists');
-
-      // Encrypt password
-      //const encryptedPass = hashSync(password, 10);
 
       const newUser = this.userRepo.create({
         firstName,
@@ -62,9 +61,6 @@ export class UsersService {
 
       if (password != existingUser.password)
         throw new UnauthorizedException('Password is not valid');
-
-      /*if (!compareSync(password, existingUser.password))
-        throw new UnauthorizedException('Password is not valid');*/
 
       return existingUser;
     } catch (error) {
@@ -130,7 +126,7 @@ export class UsersService {
       user.isDeleted = true;
       this.userRepo.save(user);
 
-      return { msg: 'User deleted successfully' };
+      return { msg: `User #${id} deleted successfully` };
     } catch (error) {
       errorHandler(error);
     }

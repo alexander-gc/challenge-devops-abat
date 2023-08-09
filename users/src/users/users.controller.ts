@@ -17,7 +17,7 @@ import {
   UserDto,
   UsersDto,
 } from './dto';
-import { Serialize } from 'src/interceptors/serialize.interceptor';
+import { Serialize } from '../interceptors/serialize.interceptor';
 
 @Controller('users')
 export class UsersController {
