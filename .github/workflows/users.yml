@@ -28,7 +28,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Run test
-        run: echo "Running tests" 
+        run: cd users && npm run test
+      - name: Output
+        run: echo "Tests running successfully!"
 
   build_and_run_containers:
     if: ${{ github.event_name == 'pull_request' }}
