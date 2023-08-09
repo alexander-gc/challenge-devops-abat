@@ -7,7 +7,9 @@ terraform {
   }
 }
 
-provider "aws" {}
+provider "aws" {
+  region = "us-east-2"
+}
 
 resource "aws_security_group" "sg_test_k8s" {
   name        = "sg_test_k8s"
