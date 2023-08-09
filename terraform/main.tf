@@ -43,7 +43,7 @@ resource "aws_instance" "test_k8s" {
   subnet_id                   = "subnet-024b8467cff75290b"
   vpc_security_group_ids      = [aws_security_group.sg_test_k8s.id]
   associate_public_ip_address = true
-  key_name                    = "vm-quasar-db"
+  key_name                    = "test-k8s-cluster"
 
   ebs_block_device {
     device_name           = "/dev/sda1"
@@ -63,7 +63,7 @@ resource "aws_instance" "test_k8s" {
     connection {
       type        = "ssh"
       user        = "ubuntu"
-      private_key = file("~/.ssh/vm-quasar-db.pem")
+      private_key = file("~/.ssh/test-k8s-cluster.pem")
       host        = self.public_ip
     }
   }
@@ -77,7 +77,7 @@ resource "aws_instance" "test_k8s" {
     connection {
       type        = "ssh"
       user        = "ubuntu"
-      private_key = file("~/.ssh/vm-quasar-db.pem")
+      private_key = file("~/.ssh/test-k8s-cluster.pem")
       host        = self.public_ip
     }
   }
@@ -92,7 +92,7 @@ resource "aws_instance" "test_k8s" {
     connection {
       type        = "ssh"
       user        = "ubuntu"
-      private_key = file("~/.ssh/vm-quasar-db.pem")
+      private_key = file("~/.ssh/test-k8s-cluster.pem")
       host        = self.public_ip
     }
   }
