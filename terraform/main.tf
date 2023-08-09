@@ -89,12 +89,22 @@ resource "aws_instance" "test_k8s" {
   }
 
   provisioner "remote-exec" {
+    inline = ["sudo usermod -aG docker $USER"]
+
+    connection {
+      type        = "ssh"
+      user        = "ubuntu"
+      private_key = file("~/.ssh/test-k8s-cluster.pem")
+      host        = self.public_ip
+    }
+  }
+
+  provisioner "remote-exec" {
     inline = [
-      "sudo usermod -aG docker $USER",
       "minikube start --driver=docker",
       "minikube config set driver docker",
-      "chmod +x /home/ubuntu/challenge-devops-abat/k8s/scripts/start-depl.sh", # Optional!
-      "sudo /home/ubuntu/challenge-devops-abat/k8s/scripts/start-depl.sh"      # Optional!
+      "sudo chmod +x /home/ubuntu/challenge-devops-abat/k8s/scripts/start-depl.sh", # Optional!
+      "sudo /home/ubuntu/challenge-devops-abat/k8s/scripts/start-depl.sh"           # Optional!
     ]
 
     connection {
