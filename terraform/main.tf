@@ -59,8 +59,8 @@ resource "aws_instance" "test_k8s" {
   }
 
   provisioner "file" {
-    source      = "install-and-initialize-k8s.sh"
-    destination = "/home/ubuntu/install-and-initialize-k8s.sh"
+    source      = "./scripts"
+    destination = "/home/ubuntu"
 
     connection {
       type        = "ssh"
@@ -72,8 +72,12 @@ resource "aws_instance" "test_k8s" {
 
   provisioner "remote-exec" {
     inline = [
-      "chmod +x /home/ubuntu/install-and-initialize-k8s.sh",
-      "sudo /home/ubuntu/install-and-initialize-k8s.sh"
+      "chmod +x /home/ubuntu/scripts/install-k8s.sh",
+      "chmod +x /home/ubuntu/scripts/clone-repo.sh",
+      "chmod +x /home/ubuntu/scripts/install-nginx.sh",
+      "sudo /home/ubuntu/scripts/install-k8s.sh",
+      "sudo /home/ubuntu/scripts/clone-repo.sh",
+      "sudo /home/ubuntu/scripts/install-nginx.sh"
     ]
 
     connection {
@@ -88,7 +92,9 @@ resource "aws_instance" "test_k8s" {
     inline = [
       "sudo usermod -aG docker $USER",
       "minikube start --driver=docker",
-      "minikube config set driver docker"
+      "minikube config set driver docker",
+      "chmod +x /home/ubuntu/challenge-devops-abat/k8s/scripts/start-depl.sh", # Optional!
+      "sudo /home/ubuntu/challenge-devops-abat/k8s/scripts/start-depl.sh"      # Optional!
     ]
 
     connection {
