@@ -12,7 +12,7 @@ data:
         #access_log  /var/log/nginx/host.access.log  main;
 
         location / {
-                proxy_pass http://users-srv:5000;
+                proxy_pass http://auth-srv:5000; 
         }
 
         #error_page  404              /404.html;

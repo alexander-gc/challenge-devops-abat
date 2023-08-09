@@ -57,8 +57,8 @@ resource "aws_instance" "test_k8s" {
   }
 
   provisioner "file" {
-    source      = "install-docker-minikube.sh"
-    destination = "/home/ubuntu/install-docker-minikube.sh"
+    source      = "install-and-initialize-k8s.sh"
+    destination = "/home/ubuntu/install-and-initialize-k8s.sh"
 
     connection {
       type        = "ssh"
@@ -70,8 +70,8 @@ resource "aws_instance" "test_k8s" {
 
   provisioner "remote-exec" {
     inline = [
-      "chmod +x /home/ubuntu/install-docker-minikube.sh",
-      "sudo /home/ubuntu/install-docker-minikube.sh"
+      "chmod +x /home/ubuntu/install-and-initialize-k8s.sh",
+      "sudo /home/ubuntu/install-and-initialize-k8s.sh"
     ]
 
     connection {
