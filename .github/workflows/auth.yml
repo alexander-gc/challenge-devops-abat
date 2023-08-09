@@ -1,15 +1,15 @@
-name: users
+name: auth
 
 on:
   pull_request:
     branches: [main]
     types: [opened, synchronize, reopened]
     paths:
-      - "users/**"
+      - "auth/**"
   push:
     branches: [main]
     paths:
-      - "users/**"
+      - "auth/**"
 
 jobs:
   avoid_reduncy:
@@ -29,9 +29,9 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
       - name: Install Dependencies
-        run: cd users && npm install
+        run: cd auth && npm install
       - name: Run test
-        run: cd users && npm run test
+        run: cd auth && npm run test
       - name: Output
         run: echo "Tests running successfully!"
 
@@ -43,7 +43,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
       - name: Build Docker Image
-        run: docker build -t alexandergc/users:latest ./users
+        run: docker build -t alexandergc/auth:latest ./auth
       - name: Pull Postgres Image
         run: docker pull postgres:15-alpine
       - name: Create Docker network
@@ -51,7 +51,7 @@ jobs:
       - name: Create Postgres container
         run: docker run --name postgres -p 5432:5432 -e POSTGRES_DB=dumb-db -e POSTGRES_USER=root -e POSTGRES_PASSWORD=pass --network test-network -d postgres:15-alpine
       - name: Create Nestjs container
-        run: docker run --name users -p 5000:5000 -e PORT=5000 -e DB_USER=root -e DB_HOST=postgres -e DB_NAME=dumb-db -e DB_PASSWORD=pass -e DB_PORT=5432 --network test-network -d alexandergc/users      
+        run: docker run --name auth -p 5000:5000 -e PORT=5000 -e DB_USER=root -e DB_HOST=postgres -e DB_NAME=dumb-db -e DB_PASSWORD=pass -e DB_PORT=5432 --network test-network -d alexandergc/auth      
       - name: Execute docker images
         run: docker images
       - name: Execute docker ps
@@ -68,9 +68,9 @@ jobs:
       - name: Login to Docker Hub
         run: echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
       - name: Build Docker Image
-        run: docker build -t alexandergc/users:latest ./users
+        run: docker build -t alexandergc/auth:latest ./auth
       - name: Push Docker Image to Docker Hub
-        run: docker push alexandergc/users:latest
+        run: docker push alexandergc/auth:latest
       - name: Output
         run: echo "Image pushed to DockerHub successfully!"
 

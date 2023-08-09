@@ -1,29 +1,30 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: users-depl
+  name: auth-depl
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: users
+      app: auth
   template:
     metadata:
       labels:
-        app: users
+        app: auth
     spec:
       containers:
-        - name: users
-          image: alexandergc/users
+        - name: auth
+          image: alexandergc/auth
+          imagePullPolicy: Always
           env:
             - name: PORT
               value: "5000"
             - name: DB_USER
               value: root
             - name: DB_HOST
-              value: users-postgres-srv
+              value: auth-postgres-srv
             - name: DB_NAME
-              value: users-db
+              value: auth-db
             - name: DB_PASSWORD
               value: password
             - name: DB_PORT
@@ -32,14 +33,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: users-srv
+  name: auth-srv
 spec:
-  #type: NodePort
   ports:
-    - name: users
+    - name: auth
       protocol: TCP
-      #nodePort: 30000
       port: 5000
       targetPort: 5000
   selector:
-    app: users
+    app: auth

@@ -12,8 +12,6 @@ import { User } from './entities/user.entity';
 import { CreateUserDto, UpdateUserDto, LoginUserDto } from './dto';
 import { errorHandler } from '../handlers/error.handler';
 
-// TODO: Validate if email already existsss
-
 @Injectable()
 export class UsersService {
   constructor(
@@ -101,8 +99,6 @@ export class UsersService {
       const { firstName, lastName, email } = updateUserDto;
 
       const user = await this.findOne(id);
-
-      // Validate if email already exists
 
       Object.assign(user, {
         email,

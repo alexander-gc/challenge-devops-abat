@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "==> Deleting old pods of users..."
-kubectl delete pods --selector=app=users
+echo "==> Deleting old pods of auth..."
+kubectl delete pods --selector=app=auth
 
-echo "==> Creating new pods by Users Deployment..."
+echo "==> Creating new pods by Auth Deployment..."
