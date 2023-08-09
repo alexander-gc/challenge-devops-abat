@@ -12,7 +12,7 @@ import { User } from './entities/user.entity';
 import { CreateUserDto, UpdateUserDto, LoginUserDto } from './dto';
 import { errorHandler } from '../handlers/error.handler';
 
-// TODO: Validate if email already exists
+// TODO: Validate if email already existss
 
 @Injectable()
 export class UsersService {

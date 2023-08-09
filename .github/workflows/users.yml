@@ -26,7 +26,10 @@ jobs:
     needs: [avoid_reduncy]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      - name: Running ls
+        run: ls
       - name: Run test
         run: cd users && npm run test
       - name: Output
