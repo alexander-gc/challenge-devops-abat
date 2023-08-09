@@ -74,3 +74,7 @@ sudo systemctl restart nginx
 # ===================== CLONING GIT REPOSITORY =========================== #
 echo "==> Cloning my repository"
 git clone https://github.com/alexander-gc/challenge-devops-abat.git
+
+# ===================== START K8S DEPLOYMENTS =========================== #
+# THIS IS OPTIONAL => you can execute it manually inside your instace or right now automatically (its up to you)
+sudo ../k8s/scripts/start-depl.sh "$GITHUB_USERNAME" "$GITHUB_EMAIL"
