@@ -4,11 +4,12 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { UsersService } from './users.service';
 import { User } from './entities/user.entity';
 import { CreateUserDto, UserDto } from './dto';
+import { MockUsersRepository } from '../interfaces/mock-users-repository.interface';
 
 describe('UsersService', () => {
   let service: UsersService;
 
-  const mockUsersRepository = {
+  const mockUsersRepository: MockUsersRepository = {
     findOne: jest.fn(async (conditions: any): Promise<User> => {
       const { id, email, isDeleted } = conditions.where;
 
