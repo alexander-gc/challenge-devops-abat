@@ -29,6 +29,8 @@ spec:
               value: password
             - name: DB_PORT
               value: "5432"
+            - name: TOKEN
+              value: my-secret-token
 ---
 apiVersion: v1
 kind: Service

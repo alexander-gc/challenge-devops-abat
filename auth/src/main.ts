@@ -6,7 +6,7 @@ import { dataSource } from 'database/data-source';
 
 async function bootstrap() {
   const port = process.env.PORT || 5000;
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule); // DESIGN PATTERN: SINGLETON
 
   app.setGlobalPrefix('api/v1');
 

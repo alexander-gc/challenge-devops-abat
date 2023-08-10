@@ -6,7 +6,6 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ConfigService } from '@nestjs/config';
 
 import { User } from './entities/user.entity';
 import { CreateUserDto, UpdateUserDto, LoginUserDto } from './dto';
@@ -14,10 +13,7 @@ import { errorHandler } from '../handlers/error.handler';
 
 @Injectable()
 export class UsersService {
-  constructor(
-    private readonly configService: ConfigService,
-    @InjectRepository(User) private userRepo: Repository<User>,
-  ) {}
+  constructor(@InjectRepository(User) private userRepo: Repository<User>) {}
 
   async create(createUserDto: CreateUserDto): Promise<User> {
     try {
