@@ -6,6 +6,8 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
+// POO: ABSTRACTION
+
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()

@@ -8,11 +8,14 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { plainToInstance, ClassConstructor } from 'class-transformer';
 
+// DESIGN PATTERN: INTERCEPTOR
+
 export function Serialize<T>(dto: ClassConstructor<T>) {
   return UseInterceptors(new SerializeInterceptor(dto));
 }
 
 export class SerializeInterceptor<T> implements NestInterceptor {
+  // POO: ENCAPSULATION
   constructor(private dto: ClassConstructor<T>) {}
 
   intercept(context: ExecutionContext, handler: CallHandler): Observable<T> {

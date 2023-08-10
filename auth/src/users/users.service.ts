@@ -13,6 +13,7 @@ import { errorHandler } from '../handlers/error.handler';
 
 @Injectable()
 export class UsersService {
+  // POO: ENCAPSULATION
   constructor(@InjectRepository(User) private userRepo: Repository<User>) {}
 
   async create(createUserDto: CreateUserDto): Promise<User> {

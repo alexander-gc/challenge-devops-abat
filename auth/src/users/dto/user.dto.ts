@@ -1,5 +1,7 @@
 import { Expose } from 'class-transformer';
 
+// POO: ABSTRACTION
+
 // Response
 
 export class UserDto {
