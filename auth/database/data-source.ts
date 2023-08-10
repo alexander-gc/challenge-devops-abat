@@ -16,6 +16,6 @@ const dataSourceOptions: DataSourceOptions = {
   synchronize: true,
 };
 
-const dataSource = new DataSource(dataSourceOptions); // DESIGN PATTERN: SINGLETON
+const dataSource = new DataSource(dataSourceOptions); // DESIGN PATTERN: SINGLETON, POO: INHERITANCE
 
 export { dataSourceOptions, dataSource };

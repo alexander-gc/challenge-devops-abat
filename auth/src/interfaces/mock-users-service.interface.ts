@@ -5,6 +5,8 @@ import {
   UserDto,
 } from 'src/users/dto';
 
+// POO: POLYMORPHISM
+
 export interface MockUsersService {
   create: (dto: CreateUserDto) => Promise<UserDto>;
   findAll: () => Promise<{ length: number; users: UserDto[] }>;

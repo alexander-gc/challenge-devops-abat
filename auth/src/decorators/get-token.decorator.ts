@@ -11,12 +11,10 @@ import { Observable } from 'rxjs';
 import { EnvConfiguration } from '../../config/env.config';
 const { token } = EnvConfiguration();
 
-// DESIGN PATTERN: DECORATOR
+// DESIGN PATTERN: DECORATOR & GUARDS
 
 @Injectable()
 class GetToken implements CanActivate {
-  constructor(private readonly reflector: Reflector) {}
-
   canActivate(
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
