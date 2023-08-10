@@ -61,7 +61,6 @@ resource "aws_instance" "test_k8s" {
   provisioner "file" {
     source      = "./scripts"
     destination = "/home/ubuntu"
-
     connection {
       type        = "ssh"
       user        = "ubuntu"
@@ -79,7 +78,6 @@ resource "aws_instance" "test_k8s" {
       "sudo /home/ubuntu/scripts/clone-repo.sh",
       "sudo /home/ubuntu/scripts/install-nginx.sh"
     ]
-
     connection {
       type        = "ssh"
       user        = "ubuntu"
@@ -90,7 +88,6 @@ resource "aws_instance" "test_k8s" {
 
   provisioner "remote-exec" {
     inline = ["sudo usermod -aG docker $USER"]
-
     connection {
       type        = "ssh"
       user        = "ubuntu"
@@ -102,11 +99,22 @@ resource "aws_instance" "test_k8s" {
   provisioner "remote-exec" {
     inline = [
       "minikube start --driver=docker",
-      "minikube config set driver docker",
-      "sudo chmod +x /home/ubuntu/challenge-devops-abat/k8s/scripts/start-depl.sh", # Optional!
-      "sudo /home/ubuntu/challenge-devops-abat/k8s/scripts/start-depl.sh"           # Optional!
+      "minikube config set driver docker"
     ]
+    connection {
+      type        = "ssh"
+      user        = "ubuntu"
+      private_key = file("~/.ssh/test-k8s-cluster.pem")
+      host        = self.public_ip
+    }
+  }
 
+  # This is optional!
+  provisioner "remote-exec" {
+    inline = [
+      "sudo chmod +x /home/ubuntu/challenge-devops-abat/k8s/scripts/start-depl.sh",
+      "sudo /home/ubuntu/challenge-devops-abat/k8s/scripts/start-depl.sh"
+    ]
     connection {
       type        = "ssh"
       user        = "ubuntu"
