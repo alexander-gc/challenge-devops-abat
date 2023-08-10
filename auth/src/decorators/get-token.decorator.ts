@@ -8,8 +8,10 @@ import {
 import { Reflector } from '@nestjs/core';
 import { Observable } from 'rxjs';
 
-import { EnvConfiguration } from 'config/env.config';
+import { EnvConfiguration } from '../../config/env.config';
 const { token } = EnvConfiguration();
+
+// DESIGN PATTERN: DECORATOR
 
 @Injectable()
 class GetToken implements CanActivate {

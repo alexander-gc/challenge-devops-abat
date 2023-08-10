@@ -3,7 +3,6 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 
 import { UsersService } from './users.service';
 import { User } from './entities/user.entity';
-import { ConfigService } from '@nestjs/config';
 import { CreateUserDto, UserDto } from './dto';
 
 describe('UsersService', () => {
@@ -64,12 +63,6 @@ describe('UsersService', () => {
     save: jest.fn(async (user: User): Promise<User> => user),
   };
 
-  const mockConfigService = {
-    getConfig: jest.fn((key: string) => {
-      return {};
-    }),
-  };
-
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
@@ -77,10 +70,6 @@ describe('UsersService', () => {
         {
           provide: getRepositoryToken(User),
           useValue: mockUsersRepository,
-        },
-        {
-          provide: ConfigService,
-          useValue: mockConfigService,
         },
       ],
     }).compile();

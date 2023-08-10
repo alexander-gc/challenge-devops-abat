@@ -8,6 +8,8 @@ import { dataSourceOptions } from 'database/data-source';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { EnvConfiguration } from 'config/env.config';
 
+// DESIGN PATTERN: DEPENDENCY INJECTION
+
 @Module({
   imports: [
     ConfigModule.forRoot({ load: [EnvConfiguration] }),

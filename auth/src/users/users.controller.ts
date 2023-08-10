@@ -18,7 +18,7 @@ import {
   UsersDto,
 } from './dto';
 import { Serialize } from '../interceptors/serialize.interceptor';
-import { Token } from 'src/decorators/get-token.decorator';
+import { Token } from '../decorators/get-token.decorator';
 
 @Controller('users')
 export class UsersController {
@@ -48,7 +48,7 @@ export class UsersController {
   @Serialize(UserDto)
   @Get(':id')
   @HttpCode(200)
-  @Token()
+  @Token() // DESIGN PATTERN: SINGLETON
   findOne(@Param('id') id: string) {
     return this.usersService.findOne(+id);
   }
@@ -56,14 +56,14 @@ export class UsersController {
   @Serialize(UserDto)
   @Put(':id')
   @HttpCode(200)
-  @Token()
+  @Token() // DESIGN PATTERN: SINGLETON
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.usersService.update(+id, updateUserDto);
   }
 
   @Delete(':id')
   @HttpCode(200)
-  @Token()
+  @Token() // DESIGN PATTERN: SINGLETON
   remove(@Param('id') id: string) {
     return this.usersService.remove(+id);
   }
