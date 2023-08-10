@@ -2,6 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
 import { CreateUserDto, LoginUserDto, UpdateUserDto, UserDto } from './dto';
+import { MockUsersService } from '../interfaces/mock-users-service.interface';
 
 describe('UsersController', () => {
   let controller: UsersController;
@@ -23,7 +24,7 @@ describe('UsersController', () => {
     updatedAt: new Date(),
   };
 
-  const mockUsersService = {
+  const mockUsersService: MockUsersService = {
     create: jest.fn(async (dto: CreateUserDto): Promise<UserDto> => {
       delete dto.password;
 
