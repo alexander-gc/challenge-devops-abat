@@ -108,20 +108,6 @@ resource "aws_instance" "test_k8s" {
       host        = self.public_ip
     }
   }
-
-  # This is optional!
-  provisioner "remote-exec" {
-    inline = [
-      "sudo chmod +x /home/ubuntu/challenge-devops-abat/k8s/scripts/start-depl.sh",
-      "sudo /home/ubuntu/challenge-devops-abat/k8s/scripts/start-depl.sh"
-    ]
-    connection {
-      type        = "ssh"
-      user        = "ubuntu"
-      private_key = file("~/.ssh/test-k8s-cluster.pem")
-      host        = self.public_ip
-    }
-  }
 }
 
 output "public_ip" {
